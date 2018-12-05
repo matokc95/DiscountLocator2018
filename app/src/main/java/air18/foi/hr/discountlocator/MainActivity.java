@@ -24,6 +24,12 @@ import com.air.ws.core.CurrentActivity;
 import air18.foi.hr.database.MainDatabase;
 import air18.foi.hr.discountlocator.fragments.DiscountListFragment;
 import air18.foi.hr.discountlocator.helper.Util;
+import air18.foi.hr.discountlocator.loaders.MyDistributeListener;
+
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.distribute.Distribute;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
 
@@ -52,6 +58,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         initializeNavigationManager();
         startMainModule();
+
+        Distribute.setListener(new MyDistributeListener());
+        Distribute.setEnabled(true);
+        AppCenter.start(getApplication(), "c6c67159-fd09-4db0-82ee-90d3241a7de0",
+                Analytics.class, Crashes.class);
+        AppCenter.start(getApplication(), "c6c67159-fd09-4db0-82ee-90d3241a7de0", Distribute.class);
     }
 
     private void setCurrentActivity() {
